@@ -20,9 +20,6 @@ import type { Transaction } from "../data/types/transaction.type";
 import './TransactionBoard.scss';
 
 
-// TODO:
-// - delete transaction
-
 export const TransactionBoard: React.FC = () => {
   const { data, isLoading, error } = useTransactions();
   const deleteTransactionMutation = useDeleteTransaction();
@@ -77,8 +74,9 @@ export const TransactionBoard: React.FC = () => {
           New Transaction
         </Button>
       </Box>
-
       <Divider className='divider' />
+
+      { /* Transaction Table */}
       <Paper sx={{ height: 600, width: '100%' }}>
         <DataGrid
           rows={data.map(tx => ({ ...tx, onDelete: setDeleteTransaction }))}

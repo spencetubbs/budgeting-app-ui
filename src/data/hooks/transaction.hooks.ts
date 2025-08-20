@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createTransaction, deleteTransaction, getAllTransactions } from "../transaction.api";
 import type { CreateTransactionDto, Transaction } from "../types/transaction.type";
 
+
 export const useTransactions = () => {
   const query = useQuery<Transaction[]>({
     queryKey: ['transactions'],
@@ -32,7 +33,6 @@ export const useCreateTransaction = () => {
 
   return mutation;
 };
-
 
 export const useDeleteTransaction = () => {
   const queryClient = useQueryClient();
