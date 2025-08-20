@@ -1,5 +1,7 @@
 import type { GridColDef } from "@mui/x-data-grid";
+import { GridActionsCellItem } from "@mui/x-data-grid";
 import { CategoryType } from "../data/types/category.type";
+import DeleteIcon from '@mui/icons-material/Delete';
 import dayjs from 'dayjs';
 
 export const tansactionTableColumns: GridColDef[] = [
@@ -32,5 +34,19 @@ export const tansactionTableColumns: GridColDef[] = [
     headerName: 'Date',
     valueFormatter: (value) => dayjs(value).format('MM/DD/YYYY'),
     flex: 0.5,
+  },
+  {
+    field: 'actions',
+    type: 'actions',
+    headerName: 'Actions',
+    flex: 0.3,
+    getActions: (params) => [
+      <GridActionsCellItem
+        icon={<DeleteIcon color="error" />}
+        label="Delete"
+        onClick={() => params.row.onDelete(params.row)}
+        showInMenu={false}
+      />,
+    ],
   },
 ];

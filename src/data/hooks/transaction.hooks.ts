@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createTransaction, getAllTransactions } from "../transaction.api";
+import { createTransaction, deleteTransaction, getAllTransactions } from "../transaction.api";
 import type { CreateTransactionDto, Transaction } from "../types/transaction.type";
 
 export const useTransactions = () => {
@@ -20,11 +20,28 @@ export const useCreateTransaction = () => {
       // Refetch transactions when a new one is created
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
 
-      // TODO: use this to add the new transaction to the queryData instead of calling the GET again.
-      // I want to add some extra error handling first though.
+      /*
+        TODO: use this to add the new transaction to the queryData instead of calling the GET again.
+        I want to add some extra error handling first though.
+      */
       // queryClient.setQueryData<Transaction[]>(['transactions'], (old) => {
       //   return old ? [newTransaction, ...old] : [newTransaction];
       // });
+    },
+  });
+
+  return mutation;
+};
+
+
+export const useDeleteTransaction = () => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: (id: number) => deleteTransaction(id),
+    onSuccess: () => {
+      // Refetch transactions when a new one is created
+      queryClient.invalidateQueries({ queryKey: ['transactions'] });
     },
   });
 

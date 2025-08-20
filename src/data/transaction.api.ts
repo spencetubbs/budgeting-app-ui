@@ -10,3 +10,7 @@ export const getAllTransactions = async (): Promise<Transaction[]> => {
   const { data } = await api.get('/transaction')
   return data as Transaction[];
 }
+
+export const deleteTransaction = async (id: number): Promise<void> => {
+  await api.delete(`/transaction/${id}`)
+}
