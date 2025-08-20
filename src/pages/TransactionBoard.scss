@@ -2,22 +2,37 @@
   .header {
     display: flex;
     align-items: center;
-  }
+    justify-content: space-between;
+    gap: 1rem;
 
-  .title {
-    margin-right: 20px;
-  }
+    .title {
+      margin-right: 20px;
+    }
 
-  .net-value {
-    display: flex;
-    align-items: center;
-    padding: 5px 10px;
-    width: fit-content;
-    height: 20px;
-    background-color: lightgrey;
-  }
+    .net-value {
+      display: flex;
+      align-items: center;
+      padding: 5px 10px;
+      width: fit-content;
+      height: 20px;
+      padding: 0.5rem 1rem;
+      background-color: lightgrey;
+    }
 
+    .left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+  }
+  
   .divider {
     margin: 20px 0;
   }
+}
+
+.dialog-form-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
