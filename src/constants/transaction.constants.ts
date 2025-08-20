@@ -1,10 +1,19 @@
 import type { GridColDef } from "@mui/x-data-grid";
+import { CategoryType } from "../data/types/category.type";
 import dayjs from 'dayjs';
 
 export const tansactionTableColumns: GridColDef[] = [
   {
     field: 'amount',
-    headerName: 'Product Name',
+    headerName: 'Amount',
+    valueGetter: (value, row) => {
+      if (row.category.type === CategoryType.INCOME) {
+        return value
+      }
+      else {
+        return `-${value}`
+      }
+    },
     flex: 0.5,
   },
   {

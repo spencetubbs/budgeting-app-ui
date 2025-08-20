@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getAllTransactions } from '../data/transaction.api';
 import type { Transaction } from '../data/types/transaction.type';
 import { tansactionTableColumns } from '../constants/transaction.constants';
+import { CategoryType } from '../data/types/category.type';
 
 import './TransactionBoard.scss';
 
@@ -22,18 +23,18 @@ export const TransactionBoard: React.FC = () => {
     },
   });
 
-  const [netValue, setNetValue] = useState(0)
+  const [netAmount, setNetAmount] = useState(0)
 
   useEffect(() => {
     if (!data?.length) return;
 
     // Calculate the net value of all transactions
     const net = data?.reduce((sum, s) => {
-      const val = s.amount
-      return sum + val;
+      const val = Number(s.amount)
+      return s.category.type === CategoryType.INCOME ? sum + val : sum - val;
     }, 0);
 
-    setNetValue(net);
+    setNetAmount(net);
   }, [data])
 
   const formatCurrency = (amount: number): string => {
@@ -54,7 +55,7 @@ export const TransactionBoard: React.FC = () => {
     <Box id='transaction-board' sx={{ flexGrow: 1, padding: 2 }}>
       <Box className='header'>
         <Typography className='title' variant="h4">Transactions</Typography>
-        <Card className='net-value'>Net Amount: {formatCurrency(netValue)}</Card>
+        <Card className='net-value'>Net Amount: {formatCurrency(netAmount)}</Card>
       </Box>
       <Divider className='divider' />
       <Paper sx={{ height: 400, width: '100%' }}>
