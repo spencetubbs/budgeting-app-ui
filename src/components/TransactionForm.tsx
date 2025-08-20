@@ -4,6 +4,7 @@ import { Box, Button, MenuItem, TextField, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import type { CreateTransactionDto } from '../data/types/transaction.type';
 import dayjs, { Dayjs } from 'dayjs';
+import { useCreateTransaction } from '../data/hooks/transaction.hooks';
 
 
 // TODO: get these from the api endpoint
@@ -15,6 +16,8 @@ interface TransactionFormProps {
 
 // TODO: add validation
 export const TransactionForm: React.FC<TransactionFormProps> = ({ onSuccess }) => {
+  const createTransactionMutation = useCreateTransaction();
+
   const { control, handleSubmit, reset } = useForm<CreateTransactionDto>({
     defaultValues: {
       amount: 0,
@@ -24,10 +27,9 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ onSuccess }) =
     },
   });
 
-  const onSubmit = (data: CreateTransactionDto) => {
+  const onSubmit = async (data: CreateTransactionDto) => {
     console.log('Submitted:', data);
-
-    // TODO: call create endpoint
+    await createTransactionMutation.mutateAsync(data);
 
     reset();
     onSuccess();

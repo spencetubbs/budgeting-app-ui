@@ -30,7 +30,7 @@ export const tansactionTableColumns: GridColDef[] = [
   {
     field: 'date',
     headerName: 'Date',
-    valueGetter: (value) => dayjs(value).format('MM/DD/YYYY'),
+    valueFormatter: (value) => dayjs(value).format('MM/DD/YYYY'),
     flex: 0.5,
   },
 ];

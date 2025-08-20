@@ -1,28 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Card, Dialog, DialogContent, Divider, Paper, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import { useQuery } from '@tanstack/react-query';
-import { getAllTransactions } from '../data/transaction.api';
-import type { Transaction } from '../data/types/transaction.type';
+import { useTransactions } from '../data/hooks/transaction.hooks';
 import { tansactionTableColumns } from '../constants/transaction.constants';
 import { CategoryType } from '../data/types/category.type';
 import { TransactionForm } from '../components/TransactionForm'; 
 import './TransactionBoard.scss';
 
+
 // TODO:
-// - form to create transaction
 // - delete transaction
 
 export const TransactionBoard: React.FC = () => {
-  // TODO: move this into a custom hook
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['transactions'],
-    queryFn: async (): Promise<Transaction[]> => {
-      const response = await getAllTransactions();
-      return response;
-    },
-  });
-
+  const { data, isLoading, error } = useTransactions();
   const [netAmount, setNetAmount] = useState(0)
   const [openForm, setOpenForm] = useState(false);
 
@@ -78,6 +68,11 @@ export const TransactionBoard: React.FC = () => {
         <DataGrid
           rows={data}
           columns={tansactionTableColumns}
+          initialState={{
+            sorting: {
+              sortModel: [{ field: 'date', sort: 'desc' }],
+            },
+          }}
           sx={{ border: 0 }}
         />
       </Paper>

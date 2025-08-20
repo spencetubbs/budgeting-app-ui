@@ -1,5 +1,10 @@
 import { api } from "./app.api"
-import type { Transaction } from "./types/transaction.type";
+import type { CreateTransactionDto, Transaction } from "./types/transaction.type";
+
+export const createTransaction = async (body: CreateTransactionDto): Promise<Transaction> => {
+  const { data } = await api.post('/transaction/create', body)
+  return data as Transaction;
+}
 
 export const getAllTransactions = async (): Promise<Transaction[]> => {
   const { data } = await api.get('/transaction')
