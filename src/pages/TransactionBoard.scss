@@ -20,37 +20,4 @@
   .divider {
     margin: 20px 0;
   }
-
-  .column {
-    padding: 15px;
-    width: 180px;
-    background-color: lightgrey;
-  }
-
-  .transaction-header {
-    display: flex;
-    gap: 1rem;
-    padding: 0.5rem 1rem;
-    font-weight: bold;
-    border-bottom: 2px solid #666;
-  }
-
-  .transaction-row {
-    display: flex;
-    gap: 1rem;
-    padding: 0.5rem 1rem;
-    border-bottom: 1px solid #444;
-    align-items: center;
-  }
-
-  .transaction-row:last-child {
-    border-bottom: none;
-  }
-
-  .transaction-cell {
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
 }
