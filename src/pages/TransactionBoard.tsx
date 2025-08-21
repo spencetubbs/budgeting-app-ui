@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
+  IconButton,
   Paper,
   Typography
 } from '@mui/material';
@@ -17,11 +18,12 @@ import { tansactionTableColumns } from '../constants/transaction.constants';
 import { CategoryType } from '../data/types/category.type';
 import { TransactionForm } from '../components/TransactionForm';
 import type { Transaction } from "../data/types/transaction.type";
+import CloseIcon from "@mui/icons-material/Close";
 import './TransactionBoard.scss';
 
 
 export const TransactionBoard: React.FC = () => {
-  const { data, isLoading, error } = useTransactions();
+  const { data: transactions, isLoading, error } = useTransactions();
   const deleteTransactionMutation = useDeleteTransaction();
 
   const [netAmount, setNetAmount] = useState(0)
@@ -29,16 +31,16 @@ export const TransactionBoard: React.FC = () => {
   const [deleteTransaction, setDeleteTransaction] = useState<Transaction | null>(null);
 
   useEffect(() => {
-    if (!data?.length) return;
+    if (!transactions?.length) return;
 
     // Calculate the net value of all transactions
-    const net = data?.reduce((sum, s) => {
+    const net = transactions?.reduce((sum, s) => {
       const val = Number(s.amount)
       return s.category.type === CategoryType.INCOME ? sum + val : sum - val;
     }, 0);
 
     setNetAmount(net);
-  }, [data])
+  }, [transactions])
 
   const formatCurrency = (amount: number): string => {
     return new Intl.NumberFormat('en-US', {
@@ -52,7 +54,7 @@ export const TransactionBoard: React.FC = () => {
   // Basic loading and error messages
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading data</div>;
-  if (!data) return <div>No data loaded</div>;
+  if (!transactions) return <div>No transactions loaded</div>;
 
   return (
     <Box id='transaction-board' sx={{ flexGrow: 1, padding: 2 }}>
@@ -79,7 +81,7 @@ export const TransactionBoard: React.FC = () => {
       { /* Transaction Table */}
       <Paper sx={{ height: 600, width: '100%' }}>
         <DataGrid
-          rows={data.map(tx => ({ ...tx, onDelete: setDeleteTransaction }))}
+          rows={transactions.map(tx => ({ ...tx, onDelete: setDeleteTransaction }))}
           columns={tansactionTableColumns}
           initialState={{
             sorting: {
@@ -92,6 +94,20 @@ export const TransactionBoard: React.FC = () => {
 
       { /* Create Transaction Form */}
       <Dialog open={openForm} onClose={() => setOpenForm(false)} maxWidth="sm" fullWidth>
+        <DialogTitle sx={{ m: 0, p: 2 }}>
+          <IconButton
+            aria-label="close"
+            onClick={() => setOpenForm(false)}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
         <DialogContent className='dialog-form-content'>
           <TransactionForm onSuccess={() => setOpenForm(false)} />
         </DialogContent>
